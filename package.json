@@ -4,6 +4,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
+    "build": "mkdir -p dist && cp -r src dist/",
     "test": "jest --coverage"
   },
   "dependencies": {
