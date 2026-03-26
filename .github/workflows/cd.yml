@@ -9,7 +9,6 @@ on:
     branches:
       - ci-branch
 
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -22,10 +21,13 @@ jobs:
       - name: Download build artifact
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          REPO: ${{ github.repository }}
         run: |
-          gh run download ${{ github.event.workflow_run.id }} \
+          gh run download "$RUN_ID" \
             --name employee-management-build \
             --dir /opt/employee-management \
-            --repo ${{ github.repository }}
+            --repo "$REPO"
+
       - name: Verify artifact
         run: ls -la /opt/employee-management

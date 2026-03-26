@@ -1,5 +1,5 @@
 {
-  "name": "employee-management-system",
+  "name": "@d-mestry06/employee-management-system",
   "version": "1.0.0",
   "main": "src/app.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "helmet": "^7.1.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
