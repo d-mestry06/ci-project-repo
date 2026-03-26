@@ -26,6 +26,5 @@ jobs:
             --name employee-management-build \
             --dir /opt/employee-management \
             --repo ${{ github.repository }}
-
       - name: Verify artifact
         run: ls -la /opt/employee-management
