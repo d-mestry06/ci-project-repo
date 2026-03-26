@@ -35,6 +35,3 @@ jobs:
         with:
           name: employee-management-build
           path: dist/
-
-      - name: Build Docker image
-        run: docker build -t employee-management .
