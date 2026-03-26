@@ -16,12 +16,13 @@ jobs:
 
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: employee-management-build
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
-          path: /opt/employee-management
-      
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh run download ${{ github.event.workflow_run.id }} \
+            --name employee-management-build \
+            --dir /opt/employee-management \
+            --repo ${{ github.repository }}
+
       - name: Verify artifact
         run: ls -la /opt/employee-management
