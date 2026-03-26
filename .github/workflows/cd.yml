@@ -1,0 +1,27 @@
+name: Employee Management CD
+
+on:
+  workflow_run:
+    workflows:
+      - "Employee Management CI"
+    types:
+      - completed
+    branches:
+      - ci-branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: employee-management-build
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          path: /opt/employee-management
+      
+      - name: Verify artifact
+        run: ls -la /opt/employee-management
