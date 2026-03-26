@@ -1,0 +1,33 @@
+name: Employee Management CD
+
+on:
+  workflow_run:
+    workflows:
+      - "Employee Management CI"
+    types:
+      - completed
+    branches:
+      - ci-branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Create target directory
+        run: sudo mkdir -p /opt/employee-management && sudo chown $USER:$USER /opt/employee-management
+
+      - name: Download build artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh run download "$RUN_ID" \
+            --name employee-management-build \
+            --dir /opt/employee-management \
+            --repo "$REPO"
+
+      - name: Verify artifact
+        run: ls -la /opt/employee-management
